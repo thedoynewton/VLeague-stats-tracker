@@ -16,7 +16,8 @@
       }
 
       body {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         background-attachment: fixed;
         min-height: 100vh;
@@ -523,10 +524,90 @@
           fragment.appendChild(setSection);
         });
 
+        // Add totals section
+        const totalsSection = document.createElement("div");
+        totalsSection.className = "set-section";
+
+        const totalsTitle = document.createElement("div");
+        totalsTitle.className = "set-title";
+        totalsTitle.textContent = "TOTALS";
+
+        const tableWrapper = document.createElement("div");
+        tableWrapper.className = "table-wrapper";
+
+        const table = document.createElement("table");
+        const thead = document.createElement("thead");
+        const headerRow = document.createElement("tr");
+
+        const statsHeader = document.createElement("th");
+        statsHeader.textContent = "Stats";
+        const teamHeader = document.createElement("th");
+        teamHeader.textContent = teamA;
+
+        headerRow.appendChild(statsHeader);
+        headerRow.appendChild(teamHeader);
+        thead.appendChild(headerRow);
+        table.appendChild(thead);
+
+        const tbody = document.createElement("tbody");
+
+        stats.forEach((stat) => {
+          const row = document.createElement("tr");
+          const statNameCell = document.createElement("td");
+          statNameCell.textContent = stat;
+
+          const statClass = `stat-${stat.toLowerCase().replace(/\s+/g, "-")}`;
+          const dataCell = document.createElement("td");
+          dataCell.className = `stat-cell ${statClass}`;
+          dataCell.id = `total-${stat}`;
+
+          const valueSpan = document.createElement("span");
+          valueSpan.className = "stat-value";
+          valueSpan.textContent = "0";
+
+          dataCell.appendChild(valueSpan);
+
+          row.appendChild(statNameCell);
+          row.appendChild(dataCell);
+          tbody.appendChild(row);
+        });
+
+        table.appendChild(tbody);
+        tableWrapper.appendChild(table);
+        totalsSection.appendChild(totalsTitle);
+        totalsSection.appendChild(tableWrapper);
+        fragment.appendChild(totalsSection);
+
         container.appendChild(fragment);
 
         // Event delegation for stat buttons
         container.addEventListener("click", handleStatClick);
+
+        // Initialize totals display
+        updateTotals();
+      }
+
+      function calculateTotals() {
+        const totals = {};
+        stats.forEach((stat) => {
+          totals[stat] = 0;
+          sets.forEach((setNum) => {
+            totals[stat] += gameData[setNum][stat];
+          });
+        });
+        return totals;
+      }
+
+      function updateTotals() {
+        const totals = calculateTotals();
+        stats.forEach((stat) => {
+          const cellId = `total-${stat}`;
+          const cell = document.getElementById(cellId);
+          if (cell) {
+            const valueSpan = cell.querySelector(".stat-value");
+            valueSpan.textContent = totals[stat];
+          }
+        });
       }
 
       function handleStatClick(event) {
@@ -561,6 +642,7 @@
         const cell = document.getElementById(cellId);
         const valueSpan = cell.querySelector(".stat-value");
         valueSpan.textContent = gameData[setNum][stat];
+        updateTotals();
       }
 
       function resetAll() {
