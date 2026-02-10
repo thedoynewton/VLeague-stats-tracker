@@ -11,9 +11,14 @@
         box-sizing: border-box;
       }
 
+      html {
+        color-scheme: light;
+      }
+
       body {
-        font-family: "Arial", sans-serif;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background-attachment: fixed;
         min-height: 100vh;
         padding: 20px;
         font-size: 16px;
@@ -31,14 +36,18 @@
       }
 
       .header h1 {
-        font-size: 2.5em;
+        font-size: clamp(1.4em, 5vw, 2.5em);
         margin-bottom: 10px;
         text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
       }
 
+      .header p {
+        font-size: clamp(0.875em, 2vw, 1em);
+      }
+
       .input-section {
         background: white;
-        padding: 30px;
+        padding: clamp(15px, 5vw, 30px);
         border-radius: 10px;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         margin-bottom: 30px;
@@ -48,31 +57,25 @@
       }
 
       .input-group {
-        display: flex;
+        display: grid;
+        grid-template-columns: auto 1fr;
         gap: 15px;
         margin-bottom: 20px;
-        flex-wrap: wrap;
         align-items: center;
       }
 
       .input-group label {
         font-weight: bold;
         color: #333;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        flex: 1;
-        min-width: 200px;
+        white-space: nowrap;
       }
 
       .input-group input {
-        flex: 1;
         padding: 12px 15px;
         border: 2px solid #667eea;
         border-radius: 5px;
         font-size: 16px;
         transition: border-color 0.3s;
-        min-width: 150px;
       }
 
       .input-group input:focus {
@@ -94,9 +97,12 @@
         border: none;
         border-radius: 5px;
         cursor: pointer;
-        transition:
-          transform 0.2s,
-          box-shadow 0.2s;
+        transition: transform 0.15s ease-out;
+        will-change: transform;
+      }
+
+      button:active {
+        transform: scale(0.98);
       }
 
       .btn-start {
@@ -125,12 +131,12 @@
       }
 
       .set-section {
-        margin-bottom: 40px;
+        margin-bottom: clamp(30px, 8vw, 40px);
       }
 
       .set-title {
         color: white;
-        font-size: 1.8em;
+        font-size: clamp(1.2em, 4vw, 1.8em);
         margin-bottom: 15px;
         text-align: center;
         font-weight: bold;
@@ -139,32 +145,37 @@
 
       .table-wrapper {
         background: white;
-        padding: 20px;
+        padding: clamp(12px, 4vw, 20px);
         border-radius: 10px;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
       }
 
       table {
         width: 100%;
         border-collapse: collapse;
-        min-width: 400px;
+        min-width: 300px;
       }
 
       th {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         color: white;
-        padding: 15px;
+        padding: clamp(10px, 3vw, 15px);
         text-align: center;
         font-weight: bold;
-        font-size: 14px;
+        font-size: clamp(0.75em, 2.5vw, 1em);
+        position: sticky;
+        top: 0;
+        z-index: 10;
       }
 
       td {
-        padding: 15px;
+        padding: clamp(8px, 2.5vw, 15px);
         text-align: center;
         border-bottom: 1px solid #e0e0e0;
         font-weight: 500;
+        font-size: clamp(0.875em, 2vw, 1em);
       }
 
       td:first-child {
@@ -172,14 +183,51 @@
         background: #f8f9fa;
         font-weight: bold;
         color: #333;
+        padding-left: clamp(8px, 3vw, 15px);
       }
 
       .stat-cell {
-        cursor: pointer;
-        transition: all 0.2s;
         user-select: none;
         border-radius: 5px;
         font-weight: bold;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: clamp(6px, 2vw, 10px);
+        flex-wrap: wrap;
+      }
+
+      .btn-increment {
+        padding: clamp(6px, 2vw, 8px) clamp(10px, 3vw, 12px);
+        font-size: clamp(0.875em, 2.5vw, 1em);
+        font-weight: bold;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        background: #667eea;
+        color: white;
+        min-width: 36px;
+        min-height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.15s ease-out;
+        will-change: background;
+      }
+
+      .btn-increment:hover {
+        background: #764ba2;
+      }
+
+      .btn-increment:active {
+        background: #5a6fd8;
+      }
+
+      .stat-value {
+        min-width: clamp(30px, 8vw, 45px);
+        text-align: center;
+        font-weight: bold;
+        font-size: clamp(0.875em, 2.5vw, 1.1em);
       }
 
       .stat-attacks {
@@ -206,56 +254,13 @@
         font-weight: bold;
       }
 
-      .stat-cell:active {
-        transform: scale(0.98);
-      }
-
       @media (max-width: 768px) {
         body {
-          padding: 10px;
-        }
-
-        .container {
-          max-width: 100%;
-        }
-
-        .header {
-          margin-bottom: 20px;
-        }
-
-        .header h1 {
-          font-size: 1.8em;
-          margin-bottom: 5px;
-        }
-
-        .header p {
-          font-size: 14px;
-        }
-
-        .input-section {
-          padding: 20px;
-          margin-bottom: 20px;
-          max-width: 100%;
+          padding: 12px;
         }
 
         .input-group {
-          flex-direction: column;
-          margin-bottom: 15px;
-          gap: 8px;
-        }
-
-        .input-group label {
-          flex-direction: row;
-          align-items: center;
-          font-size: 14px;
-          min-width: auto;
-        }
-
-        .input-group input {
-          width: 100%;
-          min-width: auto;
-          padding: 10px 12px;
-          font-size: 16px;
+          grid-template-columns: 1fr;
         }
 
         .button-group {
@@ -263,51 +268,27 @@
         }
 
         button {
-          padding: 10px 20px;
-          font-size: 14px;
           flex: 1;
-          min-width: 100px;
-        }
-
-        .set-section {
-          margin-bottom: 25px;
-        }
-
-        .set-title {
-          font-size: 1.4em;
-          margin-bottom: 12px;
-        }
-
-        .table-wrapper {
-          padding: 12px;
-          border-radius: 8px;
-        }
-
-        table {
-          min-width: 100%;
-          font-size: 12px;
-        }
-
-        th {
-          padding: 10px 5px;
-          font-size: 11px;
-        }
-
-        td {
-          padding: 12px 6px;
-          font-size: 12px;
-        }
-
-        td:first-child {
-          padding: 12px 8px;
-          font-size: 11px;
-        }
-
-        .stat-cell {
-          padding: 10px 4px;
-          border-radius: 4px;
+          min-width: 120px;
+          padding: 10px 16px;
           font-size: 14px;
-          font-weight: bold;
+        }
+
+        .btn-increment {
+          min-width: 40px;
+          min-height: 40px;
+        }
+
+        th,
+        td,
+        .stat-cell {
+          transition: none;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          button {
+            transition: none;
+          }
         }
       }
 
@@ -316,61 +297,91 @@
           padding: 8px;
         }
 
-        .header h1 {
-          font-size: 1.4em;
-          margin-bottom: 5px;
-        }
-
-        .header p {
-          font-size: 12px;
-        }
-
         .input-section {
-          padding: 15px;
-          margin-bottom: 15px;
+          padding: 12px;
+          margin-bottom: 16px;
+        }
+
+        .input-group {
+          margin-bottom: 12px;
+          gap: 8px;
+        }
+
+        .input-group label {
+          font-size: 14px;
         }
 
         .input-group input {
+          padding: 10px 12px;
           font-size: 16px;
-          padding: 10px;
         }
 
         button {
-          padding: 10px 15px;
-          font-size: 12px;
+          padding: 10px 14px;
+          font-size: 13px;
+          min-width: 100px;
         }
 
-        .set-title {
-          font-size: 1.2em;
-          margin-bottom: 10px;
-        }
-
-        .table-wrapper {
-          padding: 10px;
-        }
-
-        table {
-          font-size: 11px;
-        }
-
-        th {
-          padding: 8px 4px;
-          font-size: 10px;
-        }
-
-        td {
-          padding: 10px 4px;
-          font-size: 11px;
-        }
-
-        td:first-child {
-          padding: 10px 5px;
-          font-size: 10px;
+        .btn-increment {
+          min-width: 38px;
+          min-height: 38px;
+          padding: 4px 8px;
+          font-size: 16px;
         }
 
         .stat-cell {
-          padding: 8px 3px;
+          flex-direction: row;
+          gap: 4px;
+        }
+
+        .stat-value {
+          min-width: 25px;
+          font-size: 13px;
+        }
+
+        .button-group {
+          gap: 6px;
+        }
+
+        .header {
+          margin-bottom: 20px;
+        }
+
+        .set-section {
+          margin-bottom: 20px;
+        }
+
+        table {
+          min-width: 100%;
+        }
+      }
+
+      @media (max-width: 360px) {
+        .btn-increment {
+          min-width: 32px;
+          min-height: 32px;
+          padding: 2px 6px;
+        }
+
+        .stat-cell {
+          gap: 2px;
+        }
+
+        button {
+          padding: 8px 12px;
           font-size: 12px;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+        }
+
+        body {
+          background-attachment: scroll;
         }
       }
     </style>
@@ -384,21 +395,12 @@
 
       <div class="input-section">
         <div class="input-group">
-          <label>Team A Name:</label>
+          <label>Team Name:</label>
           <input
             type="text"
             id="teamAInput"
-            placeholder="Enter Team A name"
+            placeholder="Enter team name"
             value="Team A"
-          />
-        </div>
-        <div class="input-group">
-          <label>Team B Name:</label>
-          <input
-            type="text"
-            id="teamBInput"
-            placeholder="Enter Team B name"
-            value="Team B"
           />
         </div>
         <div class="button-group">
@@ -415,11 +417,8 @@
 
     <script>
       let teamA = "Team A";
-      let teamB = "Team B";
       const stats = ["ATTACKS", "BLOCKS", "ACES", "OPP ERRORS"];
       const sets = [1, 2, 3, 4, 5];
-
-      // Initialize data structure: sets[setNumber] = {ATTACKS: {teamA: 0, teamB: 0}, ...}
       let gameData = {};
 
       function initializeGameData() {
@@ -427,26 +426,17 @@
         sets.forEach((setNum) => {
           gameData[setNum] = {};
           stats.forEach((stat) => {
-            gameData[setNum][stat] = {
-              teamA: 0,
-              teamB: 0,
-            };
+            gameData[setNum][stat] = 0;
           });
         });
       }
 
       function startGame() {
         teamA = document.getElementById("teamAInput").value.trim();
-        teamB = document.getElementById("teamBInput").value.trim();
         const errorDiv = document.getElementById("error");
 
-        if (!teamA || !teamB) {
-          errorDiv.textContent = "Please enter both team names!";
-          return;
-        }
-
-        if (teamA === teamB) {
-          errorDiv.textContent = "Team names must be different!";
+        if (!teamA) {
+          errorDiv.textContent = "Please enter team name!";
           return;
         }
 
@@ -460,55 +450,121 @@
         const container = document.getElementById("setsContainer");
         container.innerHTML = "";
 
+        const fragment = document.createDocumentFragment();
+
         sets.forEach((setNum) => {
           const setSection = document.createElement("div");
           setSection.className = "set-section";
-          setSection.innerHTML = `
-                    <div class="set-title">Set ${setNum}</div>
-                    <div class="table-wrapper">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Stats</th>
-                                    <th>${teamA}</th>
-                                    <th>${teamB}</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                ${stats
-                                  .map((stat) => {
-                                    const statClass = `stat-${stat.toLowerCase().replace(/\s+/g, "-")}`;
-                                    return `
-                                    <tr>
-                                        <td>${stat}</td>
-                                        <td class="stat-cell ${statClass}" onclick="incrementStat(${setNum}, '${stat}', 'teamA')" id="set${setNum}-${stat}-teamA">
-                                            ${gameData[setNum][stat].teamA}
-                                        </td>
-                                        <td class="stat-cell ${statClass}" onclick="incrementStat(${setNum}, '${stat}', 'teamB')" id="set${setNum}-${stat}-teamB">
-                                            ${gameData[setNum][stat].teamB}
-                                        </td>
-                                    </tr>
-                                `;
-                                  })
-                                  .join("")}
-                            </tbody>
-                        </table>
-                    </div>
-                `;
-          container.appendChild(setSection);
+
+          const setTitle = document.createElement("div");
+          setTitle.className = "set-title";
+          setTitle.textContent = `Set ${setNum}`;
+
+          const tableWrapper = document.createElement("div");
+          tableWrapper.className = "table-wrapper";
+
+          const table = document.createElement("table");
+          const thead = document.createElement("thead");
+          const headerRow = document.createElement("tr");
+
+          const statsHeader = document.createElement("th");
+          statsHeader.textContent = "Stats";
+          const teamHeader = document.createElement("th");
+          teamHeader.textContent = teamA;
+
+          headerRow.appendChild(statsHeader);
+          headerRow.appendChild(teamHeader);
+          thead.appendChild(headerRow);
+          table.appendChild(thead);
+
+          const tbody = document.createElement("tbody");
+
+          stats.forEach((stat) => {
+            const row = document.createElement("tr");
+            const statNameCell = document.createElement("td");
+            statNameCell.textContent = stat;
+
+            const statClass = `stat-${stat.toLowerCase().replace(/\s+/g, "-")}`;
+            const dataCell = document.createElement("td");
+            dataCell.className = `stat-cell ${statClass}`;
+            dataCell.id = `set${setNum}-${stat}`;
+
+            const decrementBtn = document.createElement("button");
+            decrementBtn.className = "btn-increment";
+            decrementBtn.textContent = "−";
+            decrementBtn.dataset.action = "decrement";
+            decrementBtn.dataset.set = setNum;
+            decrementBtn.dataset.stat = stat;
+
+            const valueSpan = document.createElement("span");
+            valueSpan.className = "stat-value";
+            valueSpan.textContent = "0";
+
+            const incrementBtn = document.createElement("button");
+            incrementBtn.className = "btn-increment";
+            incrementBtn.textContent = "+";
+            incrementBtn.dataset.action = "increment";
+            incrementBtn.dataset.set = setNum;
+            incrementBtn.dataset.stat = stat;
+
+            dataCell.appendChild(decrementBtn);
+            dataCell.appendChild(valueSpan);
+            dataCell.appendChild(incrementBtn);
+
+            row.appendChild(statNameCell);
+            row.appendChild(dataCell);
+            tbody.appendChild(row);
+          });
+
+          table.appendChild(tbody);
+          tableWrapper.appendChild(table);
+          setSection.appendChild(setTitle);
+          setSection.appendChild(tableWrapper);
+          fragment.appendChild(setSection);
         });
+
+        container.appendChild(fragment);
+
+        // Event delegation for stat buttons
+        container.addEventListener("click", handleStatClick);
       }
 
-      function incrementStat(setNum, stat, team) {
-        gameData[setNum][stat][team]++;
-        const cellId = `set${setNum}-${stat}-${team}`;
-        document.getElementById(cellId).textContent =
-          gameData[setNum][stat][team];
+      function handleStatClick(event) {
+        const button = event.target.closest(".btn-increment");
+        if (!button) return;
+
+        const setNum = parseInt(button.dataset.set, 10);
+        const stat = button.dataset.stat;
+        const action = button.dataset.action;
+
+        if (action === "increment") {
+          incrementStat(setNum, stat);
+        } else if (action === "decrement") {
+          decrementStat(setNum, stat);
+        }
+      }
+
+      function incrementStat(setNum, stat) {
+        gameData[setNum][stat]++;
+        updateStatDisplay(setNum, stat);
+      }
+
+      function decrementStat(setNum, stat) {
+        if (gameData[setNum][stat] > 0) {
+          gameData[setNum][stat]--;
+          updateStatDisplay(setNum, stat);
+        }
+      }
+
+      function updateStatDisplay(setNum, stat) {
+        const cellId = `set${setNum}-${stat}`;
+        const cell = document.getElementById(cellId);
+        const valueSpan = cell.querySelector(".stat-value");
+        valueSpan.textContent = gameData[setNum][stat];
       }
 
       function resetAll() {
         document.getElementById("teamAInput").value = "Team A";
-        document.getElementById("teamBInput").value = "Team B";
         document.getElementById("error").textContent = "";
         document.getElementById("setsContainer").classList.remove("active");
         initializeGameData();
