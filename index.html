@@ -169,6 +169,31 @@
         z-index: 10;
       }
 
+      .set-1 th {
+        background: #c4a084;
+        color: #000;
+      }
+
+      .set-2 th {
+        background: #ffd700;
+        color: #000;
+      }
+
+      .set-3 th {
+        background: #90ee90;
+        color: #000;
+      }
+
+      .set-4 th {
+        background: #ffb6c1;
+        color: #000;
+      }
+
+      .set-5 th {
+        background: #dda0dd;
+        color: #000;
+      }
+
       td {
         padding: clamp(8px, 2.5vw, 15px);
         text-align: center;
@@ -508,6 +533,7 @@
           tableWrapper.className = "table-wrapper";
 
           const table = document.createElement("table");
+          table.className = `set-${setNum}`;
           const thead = document.createElement("thead");
           const headerRow = document.createElement("tr");
 
