@@ -451,6 +451,13 @@
           if (Object.keys(gameData).length > 0) {
             renderSets();
             document.getElementById("setsContainer").classList.add("active");
+            // Restore score input values for each set
+            sets.forEach((setNum) => {
+              const scoreInput = document.getElementById(`score-set${setNum}`);
+              if (scoreInput && gameData[setNum]["SCORE"]) {
+                scoreInput.value = gameData[setNum]["SCORE"];
+              }
+            });
           }
         }
       }
@@ -462,6 +469,7 @@
           stats.forEach((stat) => {
             gameData[setNum][stat] = 0;
           });
+          gameData[setNum]["SCORE"] = 0;
         });
         saveGameData();
       }
@@ -527,7 +535,7 @@
 
             const valueSpan = document.createElement("span");
             valueSpan.className = "stat-value";
-            valueSpan.textContent = "0";
+            valueSpan.textContent = gameData[setNum][stat];
 
             dataCell.appendChild(valueSpan);
 
@@ -673,6 +681,9 @@
       function handleScoreChange(event) {
         const setNum = parseInt(event.target.dataset.set, 10);
         const score = parseInt(event.target.value, 10) || 0;
+
+        // Save score value
+        gameData[setNum]["SCORE"] = score;
 
         // Calculate OPP ERRORS = Score - (Attacks + Blocks + Aces)
         const attacks = gameData[setNum]["ATTACKS"];
