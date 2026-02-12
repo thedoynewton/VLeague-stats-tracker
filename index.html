@@ -76,7 +76,6 @@
         border: 2px solid #667eea;
         border-radius: 5px;
         font-size: 16px;
-        transition: border-color 0.3s;
       }
 
       .input-group input:focus {
@@ -98,12 +97,6 @@
         border: none;
         border-radius: 5px;
         cursor: pointer;
-        transition: transform 0.15s ease-out;
-        will-change: transform;
-      }
-
-      button:active {
-        transform: scale(0.98);
       }
 
       .btn-start {
@@ -212,16 +205,6 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        transition: background 0.15s ease-out;
-        will-change: background;
-      }
-
-      .btn-increment:hover {
-        background: #764ba2;
-      }
-
-      .btn-increment:active {
-        background: #5a6fd8;
       }
 
       .stat-value {
@@ -278,18 +261,6 @@
         .btn-increment {
           min-width: 40px;
           min-height: 40px;
-        }
-
-        th,
-        td,
-        .stat-cell {
-          transition: none;
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-          button {
-            transition: none;
-          }
         }
       }
 
@@ -371,18 +342,6 @@
         button {
           padding: 8px 12px;
           font-size: 12px;
-        }
-      }
-
-      @media (prefers-reduced-motion: reduce) {
-        * {
-          animation-duration: 0.01ms !important;
-          animation-iteration-count: 1 !important;
-          transition-duration: 0.01ms !important;
-        }
-
-        body {
-          background-attachment: scroll;
         }
       }
     </style>
