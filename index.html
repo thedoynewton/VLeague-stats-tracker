@@ -243,6 +243,33 @@
         font-weight: bold;
       }
 
+      .score-input-section {
+        background: white;
+        padding: clamp(12px, 4vw, 20px);
+        border-radius: 10px;
+        margin-top: clamp(8px, 3vw, 15px);
+        display: flex;
+        align-items: center;
+        gap: clamp(8px, 3vw, 15px);
+        flex-wrap: wrap;
+      }
+
+      .score-input-section label {
+        font-weight: bold;
+        color: #333;
+        white-space: nowrap;
+      }
+
+      .score-input-section input {
+        padding: clamp(8px, 2.5vw, 12px);
+        border: 2px solid #667eea;
+        border-radius: 5px;
+        font-size: clamp(0.875em, 2.5vw, 1em);
+        width: clamp(80px, 20vw, 150px);
+        text-align: center;
+        touch-action: manipulation;
+      }
+
       @media (max-width: 768px) {
         body {
           padding: 12px;
@@ -331,6 +358,14 @@
         table {
           min-width: 100%;
         }
+
+        .score-input-section {
+          margin-top: 10px;
+        }
+
+        .score-input-section input {
+          font-size: 16px;
+        }
       }
 
       @media (max-width: 360px) {
@@ -347,6 +382,16 @@
         button {
           padding: 8px 12px;
           font-size: 12px;
+        }
+
+        .score-input-section {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .score-input-section input {
+          width: 100%;
+          font-size: 16px;
         }
       }
     </style>
@@ -485,6 +530,26 @@
           tableWrapper.appendChild(table);
           setSection.appendChild(setTitle);
           setSection.appendChild(tableWrapper);
+
+          // Add score input section
+          const scoreSection = document.createElement("div");
+          scoreSection.className = "score-input-section";
+
+          const scoreLabel = document.createElement("label");
+          scoreLabel.textContent = "Score:";
+
+          const scoreInput = document.createElement("input");
+          scoreInput.type = "number";
+          scoreInput.min = "0";
+          scoreInput.value = "0";
+          scoreInput.id = `score-set${setNum}`;
+          scoreInput.dataset.set = setNum;
+          scoreInput.addEventListener("input", handleScoreChange);
+
+          scoreSection.appendChild(scoreLabel);
+          scoreSection.appendChild(scoreInput);
+          setSection.appendChild(scoreSection);
+
           fragment.appendChild(setSection);
         });
 
@@ -574,6 +639,34 @@
         });
       }
 
+      function handleScoreChange(event) {
+        const setNum = parseInt(event.target.dataset.set, 10);
+        const score = parseInt(event.target.value, 10) || 0;
+
+        // Calculate OPP ERRORS = Score - (Attacks + Blocks + Aces)
+        const attacks = gameData[setNum]["ATTACKS"];
+        const blocks = gameData[setNum]["BLOCKS"];
+        const aces = gameData[setNum]["ACES"];
+        const oppErrors = score - (attacks + blocks + aces);
+
+        gameData[setNum]["OPP ERRORS"] = Math.max(0, oppErrors);
+        updateStatDisplay(setNum, "OPP ERRORS");
+      }
+
+      function updateScoreFromStats(setNum) {
+        // Calculate score from: Score = OPP ERRORS + (Attacks + Blocks + Aces)
+        const attacks = gameData[setNum]["ATTACKS"];
+        const blocks = gameData[setNum]["BLOCKS"];
+        const aces = gameData[setNum]["ACES"];
+        const oppErrors = gameData[setNum]["OPP ERRORS"];
+
+        const scoreInput = document.getElementById(`score-set${setNum}`);
+        if (scoreInput) {
+          const calculatedScore = oppErrors + (attacks + blocks + aces);
+          scoreInput.value = calculatedScore;
+        }
+      }
+
       function handleStatClick(event) {
         const button = event.target.closest(".btn-increment");
         if (!button) return;
@@ -592,12 +685,18 @@
       function incrementStat(setNum, stat) {
         gameData[setNum][stat]++;
         updateStatDisplay(setNum, stat);
+        if (stat !== "OPP ERRORS") {
+          updateScoreFromStats(setNum);
+        }
       }
 
       function decrementStat(setNum, stat) {
         if (gameData[setNum][stat] > 0) {
           gameData[setNum][stat]--;
           updateStatDisplay(setNum, stat);
+          if (stat !== "OPP ERRORS") {
+            updateScoreFromStats(setNum);
+          }
         }
       }
 
