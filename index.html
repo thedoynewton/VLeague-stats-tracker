@@ -499,27 +499,32 @@
             dataCell.className = `stat-cell ${statClass}`;
             dataCell.id = `set${setNum}-${stat}`;
 
-            const decrementBtn = document.createElement("button");
-            decrementBtn.className = "btn-increment";
-            decrementBtn.textContent = "−";
-            decrementBtn.dataset.action = "decrement";
-            decrementBtn.dataset.set = setNum;
-            decrementBtn.dataset.stat = stat;
-
             const valueSpan = document.createElement("span");
             valueSpan.className = "stat-value";
             valueSpan.textContent = "0";
 
-            const incrementBtn = document.createElement("button");
-            incrementBtn.className = "btn-increment";
-            incrementBtn.textContent = "+";
-            incrementBtn.dataset.action = "increment";
-            incrementBtn.dataset.set = setNum;
-            incrementBtn.dataset.stat = stat;
-
-            dataCell.appendChild(decrementBtn);
             dataCell.appendChild(valueSpan);
-            dataCell.appendChild(incrementBtn);
+
+            // Only add +/- buttons for non-OPP ERRORS stats
+            if (stat !== "OPP ERRORS") {
+              const decrementBtn = document.createElement("button");
+              decrementBtn.className = "btn-increment";
+              decrementBtn.textContent = "−";
+              decrementBtn.dataset.action = "decrement";
+              decrementBtn.dataset.set = setNum;
+              decrementBtn.dataset.stat = stat;
+
+              const incrementBtn = document.createElement("button");
+              incrementBtn.className = "btn-increment";
+              incrementBtn.textContent = "+";
+              incrementBtn.dataset.action = "increment";
+              incrementBtn.dataset.set = setNum;
+              incrementBtn.dataset.stat = stat;
+
+              // Insert buttons: decrement, value, increment
+              dataCell.insertBefore(decrementBtn, valueSpan);
+              dataCell.appendChild(incrementBtn);
+            }
 
             row.appendChild(statNameCell);
             row.appendChild(dataCell);
