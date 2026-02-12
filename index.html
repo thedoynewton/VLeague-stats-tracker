@@ -565,26 +565,24 @@
 
             dataCell.appendChild(valueSpan);
 
-            // Only add +/- buttons for non-OPP ERRORS stats
-            if (stat !== "OPP ERRORS") {
-              const decrementBtn = document.createElement("button");
-              decrementBtn.className = "btn-increment";
-              decrementBtn.textContent = "−";
-              decrementBtn.dataset.action = "decrement";
-              decrementBtn.dataset.set = setNum;
-              decrementBtn.dataset.stat = stat;
+            // Add +/- buttons for all stats (including OPP ERRORS)
+            const decrementBtn = document.createElement("button");
+            decrementBtn.className = "btn-increment";
+            decrementBtn.textContent = "−";
+            decrementBtn.dataset.action = "decrement";
+            decrementBtn.dataset.set = setNum;
+            decrementBtn.dataset.stat = stat;
 
-              const incrementBtn = document.createElement("button");
-              incrementBtn.className = "btn-increment";
-              incrementBtn.textContent = "+";
-              incrementBtn.dataset.action = "increment";
-              incrementBtn.dataset.set = setNum;
-              incrementBtn.dataset.stat = stat;
+            const incrementBtn = document.createElement("button");
+            incrementBtn.className = "btn-increment";
+            incrementBtn.textContent = "+";
+            incrementBtn.dataset.action = "increment";
+            incrementBtn.dataset.set = setNum;
+            incrementBtn.dataset.stat = stat;
 
-              // Insert buttons: decrement, value, increment
-              dataCell.insertBefore(decrementBtn, valueSpan);
-              dataCell.appendChild(incrementBtn);
-            }
+            // Insert buttons: decrement, value, increment
+            dataCell.insertBefore(decrementBtn, valueSpan);
+            dataCell.appendChild(incrementBtn);
 
             row.appendChild(statNameCell);
             row.appendChild(dataCell);
@@ -754,9 +752,8 @@
       function incrementStat(setNum, stat) {
         gameData[setNum][stat]++;
         updateStatDisplay(setNum, stat);
-        if (stat !== "OPP ERRORS") {
-          updateScoreFromStats(setNum);
-        }
+        // Always update score when any stat changes (including OPP ERRORS)
+        updateScoreFromStats(setNum);
         saveGameData();
       }
 
@@ -764,9 +761,8 @@
         if (gameData[setNum][stat] > 0) {
           gameData[setNum][stat]--;
           updateStatDisplay(setNum, stat);
-          if (stat !== "OPP ERRORS") {
-            updateScoreFromStats(setNum);
-          }
+          // Always update score when any stat changes (including OPP ERRORS)
+          updateScoreFromStats(setNum);
           saveGameData();
         }
       }
