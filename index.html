@@ -730,7 +730,10 @@
         const scoreInput = document.getElementById(`score-set${setNum}`);
         if (scoreInput) {
           const calculatedScore = oppErrors + (attacks + blocks + aces);
+          // Update the visible input
           scoreInput.value = calculatedScore;
+          // Persist the calculated score into gameData so it is saved
+          gameData[setNum]["SCORE"] = calculatedScore;
         }
       }
 
