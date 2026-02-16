@@ -435,7 +435,7 @@
             type="text"
             id="teamAInput"
             placeholder="Enter team name"
-            value="Team A"
+            value="Team Name"
           />
         </div>
         <div class="button-group">
@@ -451,7 +451,7 @@
     </div>
 
     <script>
-      let teamA = "Team A";
+      let teamA = "Team Name";
       const stats = ["ATTACKS", "BLOCKS", "ACES", "OPP ERRORS"];
       const sets = [1, 2, 3, 4, 5];
       let gameData = {};
@@ -779,7 +779,7 @@
       }
 
       function resetAll() {
-        document.getElementById("teamAInput").value = "Team A";
+        document.getElementById("teamAInput").value = "Team Name";
         document.getElementById("error").textContent = "";
         document.getElementById("setsContainer").classList.remove("active");
         initializeGameData();
